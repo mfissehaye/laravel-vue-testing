@@ -1,4 +1,3 @@
-const nodeExternals = require('webpack-node-externals')
 const { VueLoaderPlugin } = require('vue-loader')
 
 module.exports = {
@@ -7,22 +6,21 @@ module.exports = {
         rules: [
             {
                 test: /\.vue$/,
-                loader: 'vue-loader'
+                loader: 'vue-loader',
+                options: {
+                    optimizeSSR: false
+                }
             },
             {
                 test: /\.scss$/,
                 use: [
-                  'vue-style-loader',
-                  'css-loader',
-                  'sass-loader'
+                    'vue-style-loader',
+                    'css-loader',
+                    'sass-loader'
                 ]
-              }
+            }
         ]
     },
-
-    externals: nodeExternals({
-        allowlist: [/\.css$/, /\?vue&type=style/]
-    }),
 
     plugins: [
         new VueLoaderPlugin()

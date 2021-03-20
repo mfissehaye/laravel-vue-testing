@@ -18,3 +18,5 @@ mix.sass('resources/sass/app.scss', 'public/css')
 if (mix.inProduction) {
     mix.version();
 }
+
+module.exports = mix
