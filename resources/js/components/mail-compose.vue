@@ -104,7 +104,7 @@ textarea {
 .slide-enter-active,
 .slide-leave-enter {
     transform: translateX(0);
-    transition: all .1s linear;
+    transition: all .1s ease-in-out;
 }
 
 .slide-enter,

@@ -31,6 +31,8 @@ Vue.component('app-footer', require('./components/footer.vue').default);
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
 
+Vue.prototype.$http = require('./http')
+
 const app = new Vue({
     el: '#app',
 });

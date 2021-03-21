@@ -1,9 +1,9 @@
 <template>
-    <div class="border">
-        <a href="#"
+    <div :class="{border: mails.length > 0}">
+        <a :href="`/mails/${mail.id}`"
            v-for="(mail, i) in mails"
            :key="mail.id"
-           class="p-2 d-flex justify-content-between"
+           class="p-2 d-flex justify-content-between text-decoration-none single-mail"
            :class="{'border-bottom' : i < mails.length - 1}">
             <span class="font-weight-bold">{{ mail.subject }}</span>
             <span>{{ mail.date }}</span>
@@ -15,28 +15,15 @@
 export default {
     data() {
         return {
-            mails: [{
-                id: '1',
-                subject: 'This is the email subject',
-                date: 'Thu Mar 1, 2021'
-            }, {
-                id: '1',
-                subject: 'This is the email subject',
-                date: 'Thu Mar 1, 2021'
-            }, {
-                id: '1',
-                subject: 'This is the email subject',
-                date: 'Thu Mar 1, 2021'
-            }, {
-                id: '1',
-                subject: 'This is the email subject',
-                date: 'Thu Mar 1, 2021'
-            }, {
-                id: '1',
-                subject: 'This is the email subject',
-                date: 'Thu Mar 1, 2021'
-            }]
+            mails: []
         }
-    }
+    },
+
+    async mounted() {
+        try {
+            this.mails = await this.$http.inbox.all()
+        } catch (ex) {
+        }
+    },
 }
 </script>
