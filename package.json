@@ -42,6 +42,7 @@
   },
   "dependencies": {
     "moxios": "^0.4.0",
+    "vee-validate": "^3.4.5",
     "vue-unicons": "^3.0.0"
   }
 }

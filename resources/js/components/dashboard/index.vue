@@ -5,13 +5,13 @@
             @showMe="showingComposeForm = true"
             @hideMe="showingComposeForm = false"></mail-compose>
         <div class="row mb-3">
-            <div class="col">
+            <div class="col-12 col-lg-4 mt-3 mt-lg-0">
                 <dashboard-status-card text="Processed" icon-name="telegram"></dashboard-status-card>
             </div>
-            <div class="col">
+            <div class="col-12 col-lg-4 mt-3 mt-lg-0">
                 <dashboard-status-card text="Delivered" icon-name="mailbox"></dashboard-status-card>
             </div>
-            <div class="col">
+            <div class="col-12 col-lg-4 mt-3 mt-lg-0">
                 <dashboard-status-card text="Rejected" icon-name="envelope-block"></dashboard-status-card>
             </div>
         </div>

@@ -18,7 +18,7 @@ describe('Inbox', () => {
         // Fetch the emails and mount the component here
         timestamp1 = moment().valueOf()
         timestamp2 = moment().subtract(1, 'week').valueOf()
-        moxios.stubRequest('/inbox', {
+        moxios.stubRequest('/api/v1/mails', {
             status: 200,
             response: [{
                 id: '1',

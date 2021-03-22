@@ -1,4 +1,4 @@
-import {mount, createLocalVue, shallowMount} from '@vue/test-utils'
+import {createLocalVue, shallowMount} from '@vue/test-utils'
 import expect from 'expect'
 import Dashboard from '../../resources/js/components/dashboard/index.vue'
 import MailCompose from '../../resources/js/components/mail-compose.vue'

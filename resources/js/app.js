@@ -10,6 +10,8 @@ require('./icons')
 
 window.Vue = require('vue');
 
+require('./validator').register(window.Vue)
+
 /**
  * The following block of code may be used to automatically register your
  * Vue components. It will recursively scan this directory for the Vue
@@ -31,7 +33,7 @@ Vue.component('app-footer', require('./components/footer.vue').default);
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
 
-Vue.prototype.$http = require('./http')
+Vue.prototype.$http = require('./http').default
 
 const app = new Vue({
     el: '#app',
