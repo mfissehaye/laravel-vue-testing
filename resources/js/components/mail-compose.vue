@@ -47,6 +47,24 @@
                         <div class="mail-actions w-100">
                             <div class="m-3">
                                 <a href="#" class="text-muted cancel-form" @click.prevent="emitHideMe">Cancel</a>
+                                <a href="#" @click.prevent="$refs.file.click()" class="ml-3">Attach file(s)</a>
+                                <div
+                                    v-for="(file, i) in attachments"
+                                    :key="i">
+                                    <div class="d-flex justify-content-between py-2">
+                                        <span>{{ file.name }}</span>
+                                        <a href="#" @click.prevent="removeFile(i)">
+                                            <unicon name="times"></unicon>
+                                        </a>
+                                    </div>
+                                </div>
+                                <input
+                                    type="file"
+                                    ref="file"
+                                    class="d-none"
+                                    multiple="multiple"
+                                    @change="uploadFile"
+                                    accept="image/png, image/jpeg">
                             </div>
                             <button :class="{ disabled: invalidForm || sending }"
                                     :disabled="invalidForm || sending"
@@ -73,6 +91,7 @@ export default {
 
     data() {
         return {
+            attachments: [],
             sending: false,
             success: null,
             error: null,
@@ -94,6 +113,7 @@ export default {
             this.emails = ''
             this.subject = ''
             this.message = ''
+            this.attachments = []
         },
 
         emitHideMe() {
@@ -105,8 +125,17 @@ export default {
 
         async sendMessage() {
             try {
+                const formData = new FormData()
+
+                formData.append('to', this.emails.replace(' ', ''))
+                formData.append('subject', this.subject)
+                formData.append('message', this.message)
+                this.attachments.forEach(att => {
+                    formData.append('files[]', att)
+                })
+
                 this.sending = true
-                await this.$http.inbox.create({to: this.emails, subject: this.subject, message: this.message})
+                await this.$http.inbox.create(formData)
                 this.success = 'Your message has been sent'
                 this.$refs.observer.reset()
                 this.resetForm()
@@ -115,6 +144,17 @@ export default {
             } finally {
                 this.sending = false
             }
+        },
+
+        uploadFile(e) {
+            const files = e.target.files || e.dataTransfer.files
+            for (let i = files.length - 1; i >= 0; i--) {
+                this.attachments.push(files[i])
+            }
+        },
+
+        removeFile(index) {
+            this.attachments.splice(index, 1)
         }
     },
 

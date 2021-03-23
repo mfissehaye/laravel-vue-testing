@@ -2165,6 +2165,24 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: {
     showing: {
@@ -2174,6 +2192,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
   },
   data: function data() {
     return {
+      attachments: [],
       sending: false,
       success: null,
       error: null,
@@ -2192,6 +2211,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       this.emails = '';
       this.subject = '';
       this.message = '';
+      this.attachments = [];
     },
     emitHideMe: function emitHideMe() {
       this.$emit('hideMe');
@@ -2203,46 +2223,62 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       var _this = this;
 
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
+        var formData;
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
                 _context.prev = 0;
-                _this.sending = true;
-                _context.next = 4;
-                return _this.$http.inbox.create({
-                  to: _this.emails,
-                  subject: _this.subject,
-                  message: _this.message
+                formData = new FormData();
+                formData.append('to', _this.emails.replace(' ', ''));
+                formData.append('subject', _this.subject);
+                formData.append('message', _this.message);
+
+                _this.attachments.forEach(function (att) {
+                  formData.append('files[]', att);
                 });
 
-              case 4:
+                _this.sending = true;
+                _context.next = 9;
+                return _this.$http.inbox.create(formData);
+
+              case 9:
                 _this.success = 'Your message has been sent';
 
                 _this.$refs.observer.reset();
 
                 _this.resetForm();
 
-                _context.next = 12;
+                _context.next = 17;
                 break;
 
-              case 9:
-                _context.prev = 9;
+              case 14:
+                _context.prev = 14;
                 _context.t0 = _context["catch"](0);
                 _this.error = _context.t0.message || _context.t0;
 
-              case 12:
-                _context.prev = 12;
+              case 17:
+                _context.prev = 17;
                 _this.sending = false;
-                return _context.finish(12);
+                return _context.finish(17);
 
-              case 15:
+              case 20:
               case "end":
                 return _context.stop();
             }
           }
-        }, _callee, null, [[0, 9, 12, 15]]);
+        }, _callee, null, [[0, 14, 17, 20]]);
       }))();
+    },
+    uploadFile: function uploadFile(e) {
+      var files = e.target.files || e.dataTransfer.files;
+
+      for (var i = files.length - 1; i >= 0; i--) {
+        this.attachments.push(files[i]);
+      }
+    },
+    removeFile: function removeFile(index) {
+      this.attachments.splice(index, 1);
     }
   },
   watch: {
@@ -42689,23 +42725,101 @@ var render = function() {
                                       "div",
                                       { staticClass: "mail-actions w-100" },
                                       [
-                                        _c("div", { staticClass: "m-3" }, [
-                                          _c(
-                                            "a",
-                                            {
-                                              staticClass:
-                                                "text-muted cancel-form",
-                                              attrs: { href: "#" },
-                                              on: {
-                                                click: function($event) {
-                                                  $event.preventDefault()
-                                                  return _vm.emitHideMe($event)
+                                        _c(
+                                          "div",
+                                          { staticClass: "m-3" },
+                                          [
+                                            _c(
+                                              "a",
+                                              {
+                                                staticClass:
+                                                  "text-muted cancel-form",
+                                                attrs: { href: "#" },
+                                                on: {
+                                                  click: function($event) {
+                                                    $event.preventDefault()
+                                                    return _vm.emitHideMe(
+                                                      $event
+                                                    )
+                                                  }
                                                 }
-                                              }
-                                            },
-                                            [_vm._v("Cancel")]
-                                          )
-                                        ]),
+                                              },
+                                              [_vm._v("Cancel")]
+                                            ),
+                                            _vm._v(" "),
+                                            _c(
+                                              "a",
+                                              {
+                                                staticClass: "ml-3",
+                                                attrs: { href: "#" },
+                                                on: {
+                                                  click: function($event) {
+                                                    $event.preventDefault()
+                                                    return _vm.$refs.file.click()
+                                                  }
+                                                }
+                                              },
+                                              [_vm._v("Attach file(s)")]
+                                            ),
+                                            _vm._v(" "),
+                                            _vm._l(_vm.attachments, function(
+                                              file,
+                                              i
+                                            ) {
+                                              return _c("div", { key: i }, [
+                                                _c(
+                                                  "div",
+                                                  {
+                                                    staticClass:
+                                                      "d-flex justify-content-between py-2"
+                                                  },
+                                                  [
+                                                    _c("span", [
+                                                      _vm._v(_vm._s(file.name))
+                                                    ]),
+                                                    _vm._v(" "),
+                                                    _c(
+                                                      "a",
+                                                      {
+                                                        attrs: { href: "#" },
+                                                        on: {
+                                                          click: function(
+                                                            $event
+                                                          ) {
+                                                            $event.preventDefault()
+                                                            return _vm.removeFile(
+                                                              i
+                                                            )
+                                                          }
+                                                        }
+                                                      },
+                                                      [
+                                                        _c("unicon", {
+                                                          attrs: {
+                                                            name: "times"
+                                                          }
+                                                        })
+                                                      ],
+                                                      1
+                                                    )
+                                                  ]
+                                                )
+                                              ])
+                                            }),
+                                            _vm._v(" "),
+                                            _c("input", {
+                                              ref: "file",
+                                              staticClass: "d-none",
+                                              attrs: {
+                                                type: "file",
+                                                multiple: "multiple",
+                                                accept: "image/png, image/jpeg"
+                                              },
+                                              on: { change: _vm.uploadFile }
+                                            })
+                                          ],
+                                          2
+                                        ),
                                         _vm._v(" "),
                                         _c(
                                           "button",
@@ -42741,7 +42855,7 @@ var render = function() {
                             ],
                             null,
                             false,
-                            1814627841
+                            431219926
                           )
                         })
                       ],
@@ -58405,7 +58519,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       }, _callee);
     }))();
   },
-  create: function create(email) {
+  create: function create(formData) {
     return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee2() {
       var response;
       return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee2$(_context2) {
@@ -58413,7 +58527,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
           switch (_context2.prev = _context2.next) {
             case 0:
               _context2.next = 2;
-              return axios__WEBPACK_IMPORTED_MODULE_1___default.a.post('/api/v1/mails', email);
+              return axios__WEBPACK_IMPORTED_MODULE_1___default.a.post('/api/v1/mails', formData);
 
             case 2:
               response = _context2.sent;
@@ -58466,7 +58580,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-vue_unicons_dist_vue_unicons_vue2_umd__WEBPACK_IMPORTED_MODULE_1___default.a.add([vue_unicons_dist_icons__WEBPACK_IMPORTED_MODULE_2__["uniHomeAlt"], vue_unicons_dist_icons__WEBPACK_IMPORTED_MODULE_2__["uniTelegram"], vue_unicons_dist_icons__WEBPACK_IMPORTED_MODULE_2__["uniMailbox"], vue_unicons_dist_icons__WEBPACK_IMPORTED_MODULE_2__["uniEnvelopeBlock"], vue_unicons_dist_icons__WEBPACK_IMPORTED_MODULE_2__["uniPlus"]]);
+vue_unicons_dist_vue_unicons_vue2_umd__WEBPACK_IMPORTED_MODULE_1___default.a.add([vue_unicons_dist_icons__WEBPACK_IMPORTED_MODULE_2__["uniHomeAlt"], vue_unicons_dist_icons__WEBPACK_IMPORTED_MODULE_2__["uniTelegram"], vue_unicons_dist_icons__WEBPACK_IMPORTED_MODULE_2__["uniMailbox"], vue_unicons_dist_icons__WEBPACK_IMPORTED_MODULE_2__["uniEnvelopeBlock"], vue_unicons_dist_icons__WEBPACK_IMPORTED_MODULE_2__["uniPlus"], vue_unicons_dist_icons__WEBPACK_IMPORTED_MODULE_2__["uniTimes"], vue_unicons_dist_icons__WEBPACK_IMPORTED_MODULE_2__["uniBackward"]]);
 vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vue_unicons_dist_vue_unicons_vue2_umd__WEBPACK_IMPORTED_MODULE_1___default.a);
 
 /***/ }),

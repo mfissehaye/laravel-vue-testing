@@ -6,8 +6,8 @@ export default {
         return response.data
     },
 
-    async create(email) {
-        const response = await axios.post('/api/v1/mails', email)
+    async create(formData) {
+        const response = await axios.post('/api/v1/mails', formData)
         return response.data
     }
 }
